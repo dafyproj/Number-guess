@@ -6,8 +6,8 @@ import sys
 pygame.init()
 
 # Game constants
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 600
+WINDOW_WIDTH = 500
+WINDOW_HEIGHT = 500
 GRID_SIZE = 20
 GRID_WIDTH = WINDOW_WIDTH // GRID_SIZE
 GRID_HEIGHT = WINDOW_HEIGHT // GRID_SIZE
@@ -184,7 +184,7 @@ class Game:
                     break
             
             self.draw()
-            self.clock.tick(10)  # 10 FPS for good game speed
+            self.clock.tick(5)  # 5 FPS for good game speed
         
         pygame.quit()
         sys.exit()
