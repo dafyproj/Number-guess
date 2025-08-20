@@ -8,7 +8,7 @@ pygame.init()
 # Game constants
 WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
-GRID_SIZE = 20
+GRID_SIZE = 25
 GRID_WIDTH = WINDOW_WIDTH // GRID_SIZE
 GRID_HEIGHT = WINDOW_HEIGHT // GRID_SIZE
 
@@ -127,9 +127,41 @@ class Game:
             self.food.respawn(self.snake.body)
             self.score += 10
             pygame.display.set_caption(f"Snake Game - Score: {self.score}")
-        
+            
+             # Проверка на победу
+        if self.score >= 80:
+            if self.vooyah_screen():
+                self.reset()
+            else:
+                pygame.quit()
+                sys.exit()
         return True
     
+    def vooyah_screen(self):
+        vooyah_text = self.font.render("VOOYAH!", True, WHITE)
+        score_text = self.font.render(f"Score: {self.score}", True, WHITE)
+        restart_text = self.font.render("Press SPACE to restart or ESC to quit", True, WHITE)   
+    
+        vooyah_rect = vooyah_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 60))
+        score_rect = score_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 20))
+        restart_rect = restart_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 20))
+
+        self.screen.fill(BLACK)
+        self.screen.blit(vooyah_text, vooyah_rect)
+        self.screen.blit(score_text, score_rect)
+        self.screen.blit(restart_text, restart_rect)
+        pygame.display.flip()
+
+        while True:
+         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    return True
+                elif event.key == pygame.K_ESCAPE:
+                    return False
+                
     def draw(self):
         self.screen.fill(BLACK)
         self.snake.draw(self.screen)
@@ -143,8 +175,8 @@ class Game:
         
         # Center the text
         game_over_rect = game_over_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 60))
-        score_rect = score_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 20))
-        restart_rect = restart_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 20))
+        score_rect = score_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 25))
+        restart_rect = restart_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 25))
         
         self.screen.fill(BLACK)
         self.screen.blit(game_over_text, game_over_rect)
